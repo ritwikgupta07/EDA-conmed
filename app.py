@@ -9,6 +9,49 @@ from langchain_groq import ChatGroq
 import os
 import pandas as pd  # Required for handling CSV files
 
+import psutil
+
+# CPU usage information
+cpu_percent = psutil.cpu_percent(interval=1)  # in percentage
+cpu_count = psutil.cpu_count(logical=False)  # Physical cores
+cpu_count_logical = psutil.cpu_count(logical=True)  # Logical cores
+
+# Memory usage information
+memory = psutil.virtual_memory()
+total_memory = memory.total / (1024 ** 3)  # Convert to GB
+used_memory = memory.used / (1024 ** 3)  # Convert to GB
+free_memory = memory.available / (1024 ** 3)  # Convert to GB
+memory_percent = memory.percent  # Percentage usage
+
+# Disk usage information
+disk = psutil.disk_usage('/')
+total_disk = disk.total / (1024 ** 3)  # Convert to GB
+used_disk = disk.used / (1024 ** 3)  # Convert to GB
+free_disk = disk.free / (1024 ** 3)  # Convert to GB
+disk_percent = disk.percent  # Percentage usage
+
+# Network usage information
+network = psutil.net_io_counters()
+bytes_sent = network.bytes_sent / (1024 ** 2)  # Convert to MB
+bytes_recv = network.bytes_recv / (1024 ** 2)  # Convert to MB
+
+# Output the information
+print("CPU Usage: {}%".format(cpu_percent))
+print("Physical CPU Cores: {}".format(cpu_count))
+print("Logical CPU Cores: {}".format(cpu_count_logical))
+print("Total Memory: {:.2f} GB".format(total_memory))
+print("Used Memory: {:.2f} GB".format(used_memory))
+print("Free Memory: {:.2f} GB".format(free_memory))
+print("Memory Usage: {}%".format(memory_percent))
+print("Total Disk: {:.2f} GB".format(total_disk))
+print("Used Disk: {:.2f} GB".format(used_disk))
+print("Free Disk: {:.2f} GB".format(free_disk))
+print("Disk Usage: {}%".format(disk_percent))
+print("Network Sent: {:.2f} MB".format(bytes_sent))
+print("Network Received: {:.2f} MB".format(bytes_recv))
+
+
+
 # Load environment variables
 load_dotenv()
 
